@@ -1,4 +1,4 @@
-import {ViewStyle, TextStyle} from 'react-native';
+import { ViewStyle, TextStyle, StyleProp } from 'react-native';
 
 export type MarkingTypes = 'dot' | 'multi-dot' | 'period' | 'multi-period' | 'custom';
 export type DayState = 'selected' | 'disabled' | 'inactive' | 'today' | '';
@@ -88,7 +88,12 @@ export interface Theme {
       main?: object;
     };
   };
+  'stylesheet.calendar.header'?: {
+    week: StyleProp<ViewStyle>;
+  } | object;
+  renderDayStyle?: (date: DateData, state: DayState) => TextStyle;
 }
+
 
 export type AgendaEntry = {
   name: string;

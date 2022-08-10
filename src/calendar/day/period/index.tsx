@@ -141,12 +141,30 @@ const PeriodDay = (props: PeriodDayProps) => {
     return {leftFillerStyle, rightFillerStyle, fillerStyle};
   }, [marking]);
 
+  const dayStyles: TextStyle = useMemo(() => {
+    let dayStyles: TextStyle = {};
+    if (theme?.renderDayStyle && dateData !== undefined && state !== undefined) {
+      dayStyles = theme.renderDayStyle(dateData, state);
+    }
+
+    if (marking) {
+      if (markingStyle.textStyle) {
+        dayStyles = {
+          ...dayStyles,
+          ...(markingStyle.textStyle as Object), 
+        }
+      }
+    }
+
+    return dayStyles;
+  },[dateData, state, marking]);
+
   const renderFillers = () => {
     if (marking) {
       return (
         <View style={[style.current.fillers, fillerStyles.fillerStyle]}>
-          <View style={[style.current.leftFiller, fillerStyles.leftFillerStyle]}/>
-          <View style={[style.current.rightFiller, fillerStyles.rightFillerStyle]}/>
+          <View style={[style.current.leftFiller, fillerStyles.leftFillerStyle, marking.leftPeriodStyle]}/>
+          <View style={[style.current.rightFiller, fillerStyles.rightFillerStyle, marking.rightPeriodStyle]}/>
         </View>
       );
     }
@@ -175,7 +193,7 @@ const PeriodDay = (props: PeriodDayProps) => {
       <View style={style.current.wrapper}>
         {renderFillers()}
         <View style={containerStyle}>
-          <Text allowFontScaling={false} style={textStyle}>
+          <Text allowFontScaling={false} style={[textStyle,dayStyles]}>
             {String(children)}
           </Text>
           <Dot theme={theme} color={marking?.dotColor} marked={marking?.marked}/>

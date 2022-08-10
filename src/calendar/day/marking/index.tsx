@@ -56,6 +56,8 @@ export interface MarkingProps extends DotProps {
   endingDay?: boolean;
   accessibilityLabel?: string;
   customStyles?: CustomStyle;
+  leftPeriodStyle?: ViewStyle;
+  rightPeriodStyle?: ViewStyle;
 }
 
 const Marking = (props: MarkingProps) => {
